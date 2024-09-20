@@ -68,6 +68,21 @@ public class TodoController {
          return ResponseEntity.notFound().build();
     }
 
+    // Filteting on th basis of completion
+    @GetMapping("/todos/filtered")
+    public ResponseEntity<List<Todo>> getCompletedTodos(@RequestParam(required = false) Boolean isCompleted) {
+        ArrayList<Todo> filteredTodo = new ArrayList<>();
+        if (isCompleted == null) {
+            return ResponseEntity.ok(todoList);
+        }
+        for(Todo todo : todoList) {
+            if(todo.isCompleted() == isCompleted) {
+                filteredTodo.add(todo);
+            }
+        }
+        return ResponseEntity.ok(filteredTodo);
+    }
+
 
 }
 
