@@ -1,5 +1,7 @@
 package com.example.TodoAPI;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +11,19 @@ import java.util.List;
 
 @RestController
 public class TodoController {
-    private static List<Todo> todoList;
 
-    public TodoController() {
+    //@Autowired  //dont need to do constructer baed injection manually, it automatically created object imlicitly
+   // @Qualifier("fakeTodoervice1") //it will Consider FakeTodoService1 as we have mentioned "newFakeTodo" in @Service Annotation
+
+
+    private static List<Todo> todoList;
+    private TodoService todoService;   //for fakeTodoervice1
+    private TodoService todoService1;  // for fakeTodo
+
+    public TodoController(@Qualifier("fakeTodoService1") TodoService todoService,
+                          @Qualifier("fakeTodo") TodoService todoService1) {
+        this.todoService = todoService;
+        this.todoService1 = todoService1;
         todoList = new ArrayList<>();
         todoList.add(new Todo(1,01,"1st task",false));
         todoList.add(new Todo(2,01,"2st task",true));
@@ -19,6 +31,8 @@ public class TodoController {
 
     @GetMapping("/todos")
     public List<Todo> getTodoList() {
+        System.out.println("api is doing" + todoService.doSomething());
+        System.out.println("api is doing" + todoService1.doSomething());
         return todoList;
     }
 
