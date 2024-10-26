@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class FakeTodoService implements TodoService {
 
     public String doSomething() {
-        return "Something";
+        return " some task";
     }
 }
